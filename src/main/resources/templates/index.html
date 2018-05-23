@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments/head :: head"></head>
+<body>
+    <div th:replace="fragments/header :: header"></div>
+    <div>
+        <ul th:each="book:${books}">
+            <li th:text="${book.author}"></li>
+            <li th:text="${book.title}"></li>
+            <li th:text="${book.readAlready}"></li>
+            <li th:text="${book.printYear}"></li>
+            <div th:replace="fragments/actions :: delete"></div>
+            <form th:action="@{'/book/{id}'(id=${book.id})}">
+                <button type="submit">Читать</button>
+            </form>
+        </ul>
+    </div>
+</body>
+</html>
