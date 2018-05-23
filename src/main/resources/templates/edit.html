@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+    <header th:replace="fragments/header :: header"></header>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th th:text="${book.title}"></th>
+            <th th:text="${book.author}"></th>
+            <th th:text="${book.isbn}"></th>
+            <th th:text="${book.description}"></th>
+        </tr>
+        <form action="#" method="post" th:action="@{/save}" th:object="${book}">
+            <tr>
+            <input type="hidden" th:field="${book.id}" th:value="${book.id}" />
+            <input type="hidden" th:field="${book.readAlready}" th:value="${book.readAlready}" />
+            <input type="hidden" th:field="${book.printYear}" th:value="${book.printYear}" />
+            <th><input type="text" maxlenght="100" th:field="${book.title}"/></th>
+            <th><input type="text" th:field="${book.author}"/></th>
+            <th><input type="text" th:field="${book.isbn}"/></th>
+            <th><input type="text" th:field="${book.description}"/></th>
+            <th><input type="submit"/></th>
+            </tr>
+        </form>
+        </tbody>
+    </table>
+</body>
+
+</html>

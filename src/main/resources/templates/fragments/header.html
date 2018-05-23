@@ -1,8 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
-<div th:fragment="header">
-    <div style="color: lawngreen">
-        <h1>Library</h1>
-    </div>
+<div th:fragment="header" class="header">
+    <table width="100%" height="100%">
+        <tr>
+            <th style="width: 90%">
+                <div id="label" >
+                    <strong id="link">
+                        <a href="/">LIBRARY</a>
+                    </strong>
+                </div>
+            </th>
+            <th style="width: 10%">
+                <div id="new">
+                <form th:action="@{'/create'}">
+                    <button type="submit">Новая книга</button>
+                </form>
+            </div></th>
+        </tr>
+    </table>
 </div>
 </html>

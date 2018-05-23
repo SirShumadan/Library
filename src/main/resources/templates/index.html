@@ -4,16 +4,25 @@
 <body>
     <div th:replace="fragments/header :: header"></div>
     <div>
-        <ul th:each="book:${books}">
-            <li th:text="${book.author}"></li>
-            <li th:text="${book.title}"></li>
-            <li th:text="${book.readAlready}"></li>
-            <li th:text="${book.printYear}"></li>
-            <div th:replace="fragments/actions :: delete"></div>
-            <form th:action="@{'/book/{id}'(id=${book.id})}">
-                <button type="submit">Читать</button>
-            </form>
-        </ul>
+        <table>
+            <thead>
+            <tr>
+                <th>Название</th><th>Автор</th><th>Описание</th><th>Статус</th>
+                <th>Читать</th><th>Редактировать</th><th>Удалить</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book:${books}">
+                <th th:text="${book.title}" style="width: 20%"></th>
+                <th th:text="${book.author}"  style="width: 20%"></th>
+                <th th:text="${book.description}" style="width: 40%"></th>
+                <th th:text="${book.readAlready}"  style="width: 5%"></th>
+                <th  style="width: 5%"><div th:replace="fragments/actions :: read"></div></th>
+                <th  style="width: 5%"><div th:replace="fragments/actions :: edit"></div></th>
+                <th  style="width: 5%"><div th:replace="fragments/actions :: delete"></div></th>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

@@ -1,0 +1,13 @@
+.header {
+    height: 120px;
+    background: #5E4A3F;
+}
+#label {
+    font-size: 80px;
+    width: 400px;
+}
+#link a {
+    display: block; /* Ссылка как блочный элемент */
+    color: white;
+    text-decoration: none; /* Убрать подчеркивание */
+}

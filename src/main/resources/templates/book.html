@@ -3,11 +3,8 @@
 <head th:replace="fragments/head :: head"></head>
 <body>
     <dev th:replace="fragments/header :: header"></dev>
-
-
+    <div th:text="'Id: ' + ${book.id}"></div>
     <div th:text="${book.title}"></div>
     <div th:text="${book.author}"></div>
-
-
 </body>
 </html>

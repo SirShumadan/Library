@@ -5,4 +5,14 @@
         <button type="submit" >Удалить</button>
     </form>
 </div>
+<div th:fragment="read">
+    <form th:action="@{'/book/{id}'(id=${book.id})}">
+        <button type="submit">Читать</button>
+    </form>
+</div>
+<div th:fragment="edit">
+    <form th:action="@{'/edit/{id}'(id=${book.id})}">
+        <button type="submit">Редактировать</button>
+    </form>
+</div>
 </html>
