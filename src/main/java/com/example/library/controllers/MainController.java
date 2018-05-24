@@ -2,6 +2,7 @@ package com.example.library.controllers;
 
 import com.example.library.entity.Book;
 import com.example.library.service.BookService;
+import com.example.library.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,30 +11,52 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class MainController {
 
-    private BookService service;
+    private BookService bookService;
+    private PageService pageService;
 
     @Autowired
-    public MainController(BookService service) {
-        this.service = service;
+    public MainController(BookService bookService, PageService pageService) {
+        this.bookService = bookService;
+        this.pageService = pageService;
     }
+
+    @GetMapping("/next")
+    public String next(){
+        pageService.nextPage();
+        return "redirect:/";
+    }
+
+    @GetMapping("/previous")
+    public String previous(){
+        pageService.previousPage();
+        return "redirect:/";
+    }
+
+    @GetMapping("/{page}")
+    public String sort(@PathVariable Integer page, Model model){
+        Iterable<Book> books = pageService.getPage(page);
+        model.addAttribute("books", books);
+        return "index";
+    }
+
 
     @GetMapping("/")
     public String main(Model model){
-        Iterable<Book> books =  service.findAll();
+        Iterable<Book> books =  pageService.getPage();
         model.addAttribute("books", books);
         return "index";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id){
-        service.deleteBook(id);
+        bookService.deleteBook(id);
         return "redirect:/";
     }
 
     @GetMapping("/book/{id}")
     public String read(@PathVariable Integer id, Model model){
-        Book book = service.getBookById(id);
-        service.readBook(id);
+        Book book = bookService.getBookById(id);
+        bookService.readBook(id);
         model.addAttribute("book", book);
         return "book";
     }
@@ -46,14 +69,28 @@ public class MainController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model){
-        Book editBook = service.getBookById(id);
+        Book editBook = bookService.getBookById(id);
         model.addAttribute("book", editBook);
         return "edit";
     }
 
     @PostMapping("/save")
     public String update(@ModelAttribute Book book){
-        service.saveBook(book);
+        bookService.saveBook(book);
         return "redirect:/";
     }
+
+    @GetMapping("/home")
+    public String home(Model model){
+        pageService.setPageNumber(0);
+        Iterable<Book> books = pageService.getPage();
+        model.addAttribute("books", books);
+        return "index";
+    }
+
+    @GetMapping("/style.css") //к - костыль. очередной.
+    public String css(){
+        return "../static/style.css";
+    }
+
 }

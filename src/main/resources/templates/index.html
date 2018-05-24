@@ -3,7 +3,7 @@
 <head th:replace="fragments/head :: head"></head>
 <body>
     <div th:replace="fragments/header :: header"></div>
-    <div>
+    <div class="main-table">
         <table>
             <thead>
             <tr>
@@ -22,6 +22,22 @@
                 <th  style="width: 5%"><div th:replace="fragments/actions :: delete"></div></th>
             </tr>
             </tbody>
+        </table>
+    </div>
+    <div class = "footer">
+        <table>
+            <tr style="width: 100%">
+                <th>
+                <form th:action="@{'/previous'}">
+                    <button type="submit">Back</button>
+                </form>
+                </th>
+                <th>
+                    <form th:action="@{'/next'}">
+                        <button type="submit">Next</button>
+                    </form>
+                </th>
+            </tr>
         </table>
     </div>
 </body>

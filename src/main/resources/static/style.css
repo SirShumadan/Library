@@ -11,3 +11,18 @@
     color: white;
     text-decoration: none; /* Убрать подчеркивание */
 }
+.main-table {
+    font-size: 18px;
+    min-height: 600px;
+}
+.footer {
+    position: relative;
+    height: 120px;
+    background: papayawhip;
+}
+.footer table {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    /*font-size: 30px;*/
+}
