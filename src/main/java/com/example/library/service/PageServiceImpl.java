@@ -22,7 +22,7 @@ public class PageServiceImpl implements PageService {
     private BookRepository repository;
 
 
-    private List<Integer> sheetsNumbers;
+    private List<Integer> numberOfPages;
 
     @Autowired
     public PageServiceImpl(BookRepository bookRepository) {
@@ -56,7 +56,7 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public void nextPage(){
-        if(pageNumber + 1 == sheetsNumbers.size())
+        if(pageNumber + 1 == numberOfPages.size())
             return;
         pageNumber++;
         page = page.next();
@@ -84,15 +84,15 @@ public class PageServiceImpl implements PageService {
 
 
     @Override
-    public List<Integer> getSheetsNumbers(){
-        return sheetsNumbers;
+    public List<Integer> getNumberOfPages(){
+        return numberOfPages;
     }
 
     private void refresh(){
         page = PageRequest.of(pageNumber, rowCount, sortDirection, sortParam);
-        sheetsNumbers = new ArrayList<Integer>();
+        numberOfPages = new ArrayList<Integer>();
         for(int i = 1; i <= repository.findAll(page).getTotalPages(); i++){
-            sheetsNumbers.add(i);
+            numberOfPages.add(i);
         }
     }
 }

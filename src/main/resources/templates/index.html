@@ -13,32 +13,20 @@
             </thead>
             <tbody>
             <tr th:each="book:${books}">
-                <th th:text="${book.title}" style="width: 20%"></th>
-                <th th:text="${book.author}"  style="width: 20%"></th>
-                <th th:text="${book.description}" style="width: 40%"></th>
-                <th th:text="${book.readAlready}"  style="width: 5%"></th>
-                <th  style="width: 5%"><div th:replace="fragments/actions :: read"></div></th>
-                <th  style="width: 5%"><div th:replace="fragments/actions :: edit"></div></th>
-                <th  style="width: 5%"><div th:replace="fragments/actions :: delete"></div></th>
+                <th style="width: 20%;" class="cell-cont"><a th:href="@{'/book/{id}'(id=${book.id})}" th:text="${book.title}" id="title-ref"></a></th>
+                <th th:text="${book.author}"  style="width: 20%" class="cell-cont"></th>
+                <th th:text="${book.description}" style="width: 40%" class="cell-cont"></th>
+                <th th:switch="${book.readAlready}"  style="width: 5%" class="cell-butt">
+                    <p th:case="true">Прочитано</p>
+                    <p th:case="false"> </p>
+                </th>
+                <th  style="width: 5%"><div th:replace="fragments/actions :: read" class="cell-butt"></div></th>
+                <th  style="width: 5%"><div th:replace="fragments/actions :: edit" class="cell-butt"></div></th>
+                <th  style="width: 5%"><div th:replace="fragments/actions :: delete" class="cell-butt"></div></th>
             </tr>
             </tbody>
         </table>
     </div>
-    <div class = "footer">
-        <table>
-            <tr style="width: 100%">
-                <th>
-                <form th:action="@{'/previous'}">
-                    <button type="submit">Back</button>
-                </form>
-                </th>
-                <th>
-                    <form th:action="@{'/next'}">
-                        <button type="submit">Next</button>
-                    </form>
-                </th>
-            </tr>
-        </table>
-    </div>
+    <div  th:replace="fragments/actions :: foot-button-bar"></div>
 </body>
 </html>

@@ -12,5 +12,5 @@ public interface PageService {
     void setSortDirection(String direction);
     void setSortParam(String param);
     void setPageNumber(int pageNumber);
-    List<Integer> getSheetsNumbers();
+    List<Integer> getNumberOfPages();
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class MainController {
 
@@ -18,6 +20,17 @@ public class MainController {
     public MainController(BookService bookService, PageService pageService) {
         this.bookService = bookService;
         this.pageService = pageService;
+    }
+
+
+
+    @GetMapping("/")
+    public String main(Model model){
+        Iterable<Book> books =  pageService.getPage();
+        List<Integer> numbers = pageService.getNumberOfPages();
+        model.addAttribute("books", books);
+        model.addAttribute("numbers", numbers);
+        return "index";
     }
 
     @GetMapping("/next")
@@ -33,19 +46,12 @@ public class MainController {
     }
 
     @GetMapping("/{page}")
-    public String sort(@PathVariable Integer page, Model model){
+    public String toPage(@PathVariable Integer page, Model model){
         Iterable<Book> books = pageService.getPage(page);
         model.addAttribute("books", books);
-        return "index";
+        return "redirect:/";
     }
 
-
-    @GetMapping("/")
-    public String main(Model model){
-        Iterable<Book> books =  pageService.getPage();
-        model.addAttribute("books", books);
-        return "index";
-    }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id){
@@ -85,10 +91,10 @@ public class MainController {
         pageService.setPageNumber(0);
         Iterable<Book> books = pageService.getPage();
         model.addAttribute("books", books);
-        return "index";
+        return "redirect:/";
     }
 
-    @GetMapping("/style.css") //к - костыль. очередной.
+    @GetMapping("/style.css") //костыль. очередной.
     public String css(){
         return "../static/style.css";
     }

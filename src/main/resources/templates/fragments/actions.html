@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
-<div th:fragment="delete">
+
+<div th:fragment="delete"> <!-- Кнопа удалить -->
     <form th:action="@{'/delete/{id}'(id=${book.id})}">
         <button type="submit" >Удалить</button>
     </form>
 </div>
-<div th:fragment="read">
+
+<div th:fragment="read"> <!-- Кнопа читать -->
     <form th:action="@{'/book/{id}'(id=${book.id})}">
         <button type="submit">Читать</button>
     </form>
 </div>
-<div th:fragment="edit">
+
+<div th:fragment="edit"> <!-- Кнопа редактировать -->
     <form th:action="@{'/edit/{id}'(id=${book.id})}">
         <button type="submit">Редактировать</button>
     </form>
 </div>
 
+
+<div th:fragment="foot-button-bar" class = "main-footer"> <!-- index footer -->
+    <table>
+        <tr>
+            <th style="padding-right: 10px">
+                <form th:action="@{'/previous'}">
+                    <button type="submit">Back</button>
+                </form>
+            </th>
+            <div>
+                <th th:each="num : ${numbers}" style="width: 35px; font-size: 18px">
+                    <a th:href="@{'/{page}'(page=${num}-1)}" th:text="'| '+ ${num}+' |' |"></a>
+                </th>
+            </div>
+            <th style="padding-left: 10px">
+                <form th:action="@{'/next'}">
+                    <button type="submit">Next</button>
+                </form>
+            </th>
+        </tr>
+    </table>
+</div>
 </html>

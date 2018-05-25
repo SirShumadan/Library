@@ -1,3 +1,7 @@
+
+body {
+    background: #E3D1B5;
+}
 .header {
     height: 120px;
     background: #5E4A3F;
@@ -12,17 +16,40 @@
     text-decoration: none; /* Убрать подчеркивание */
 }
 .main-table {
+    margin-top: 50px;
     font-size: 18px;
     min-height: 600px;
+    background: papayawhip;
 }
-.footer {
+.main-table table {
+    border-collapse: collapse;
+}
+.main-table th {
+    border: 1px solid #9D917D;
+    height: 50px;
+}
+.main-footer {
     position: relative;
     height: 120px;
     background: papayawhip;
 }
-.footer table {
+.main-footer table {
     position: absolute;
     top: 40%;
-    left: 50%;
-    /*font-size: 30px;*/
+    left: 45%;
 }
+.cell-cont {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.cell-butt {
+    text-align: center;
+}
+#title-ref{
+    color: black;
+}
+tbody{
+    font-size: 16px;
+}
+
