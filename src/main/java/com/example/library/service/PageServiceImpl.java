@@ -2,10 +2,10 @@ package com.example.library.service;
 
 import com.example.library.entity.Book;
 import com.example.library.repository.BookRepository;
+import com.example.library.repository.PageState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -15,66 +15,25 @@ import java.util.List;
 
 @Service
 public class PageServiceImpl implements PageService {
-    private Sort.Direction sortDirection;
-    private String sortParam;
-    private String searchCriterion;
-    private String searchValue;
-    private int showAlreadyRead;
-    private int pageNumber;
-    private int rowCount;
-    private Pageable page;
     private BookRepository repository;
-
-    private List<Integer> numberOfPages;
-
-    // TODO возможно стоит выделить отдельный класс для хранения состояния странички
-
+    private PageState state;
 
     @Override
     public void setShowAlreadyRead(Integer showAlreadyRead) {
-        this.showAlreadyRead = showAlreadyRead;
+        state.setShowAlreadyRead(showAlreadyRead);
     }
 
     @Autowired
-    public PageServiceImpl(BookRepository bookRepository) {
+    public PageServiceImpl(BookRepository bookRepository, PageState state) {
+        this.state = state;
         this.repository = bookRepository;
-        sortParam = "id";
-        sortDirection = Sort.Direction.ASC;
-        pageNumber = 0;
-        rowCount = 10;
+        state.setSortParam("id");
+        state.setSortDirection(Sort.Direction.ASC);
+        state.setPageNumber(0);
+        state.setRowCount(10);
         refresh();
     }
 
-
-    private Page<Book> generatePage() {
-        if (searchCriterion == null || searchCriterion.equals("")) {
-            if (showAlreadyRead == 2) {
-                return repository.findByReadAlready(false, page);
-            } else if (showAlreadyRead == 1) {
-                return repository.findByReadAlready(true, page);
-            } else {
-                return repository.findAll(page);
-            }
-        } else if (searchCriterion.equals("title")) {
-            if (showAlreadyRead == 2) {
-                return repository.findByTitleIgnoreCaseContainsAndReadAlready(searchValue, false, page);
-            } else if (showAlreadyRead == 1) {
-                return repository.findByTitleIgnoreCaseContainsAndReadAlready(searchValue, true, page);
-            } else {
-                return repository.findByTitleContainsIgnoreCase(searchValue, page);
-            }
-        } else if (searchCriterion.equals("author")) {
-            if (showAlreadyRead == 2) {
-                return repository.findByAuthorIgnoreCaseContainsAndReadAlready(searchValue, false, page);
-            } else if (showAlreadyRead == 1) {
-                return repository.findByAuthorIgnoreCaseContainsAndReadAlready(searchValue, true, page);
-            } else {
-                return repository.findByAuthorContainsIgnoreCase(searchValue, page);
-            }
-        } else {
-            return repository.findAll(page);
-        }
-    }
 
     @Override
     public Page<Book> getPage() {
@@ -83,28 +42,28 @@ public class PageServiceImpl implements PageService {
 
     @Override
     public void previousPage() {
-        if (pageNumber <= 0) {
-            pageNumber = 0;
+        if (state.getPageNumber() <= 0) {
+            state.setPageNumber(0);
         } else {
-            pageNumber--;
+            state.setPageNumber(state.getPageNumber() - 1);
         }
-        page = page.previousOrFirst();
+        state.setPage(state.getPage().previousOrFirst());
     }
 
     @Override
     public void nextPage() {
-        if (pageNumber + 1 == numberOfPages.size())
+        if (state.getPageNumber() + 1 == state.getNumberOfPages().size())
             return;
-        pageNumber++;
-        page = page.next();
+        state.setPageNumber(state.getPageNumber() + 1);
+        state.setPage(state.getPage().next());
     }
 
     @Override
     public void setSortDirection(String direction) {
         if (direction.equals("ASC")) {
-            sortDirection = Sort.Direction.ASC;
+            state.setSortDirection(Sort.Direction.ASC);
         } else if (direction.equals("DESC")) {
-            sortDirection = Sort.Direction.DESC;
+            state.setSortDirection(Sort.Direction.DESC);
         }
         refresh();
     }
@@ -112,49 +71,81 @@ public class PageServiceImpl implements PageService {
     @Override
     public void setSortParam(String param) {
         if (param != null) {
-            sortParam = param;
+            state.setSortParam(param);
             refresh();
         }
     }
 
     @Override
     public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
+        state.setPageNumber(pageNumber);
         refresh();
     }
 
     @Override
     public void setSearchCriterion(String searchCriterion) {
-        this.searchCriterion = searchCriterion;
+        state.setSearchCriterion(searchCriterion);
     }
 
     @Override
     public void setSearchValue(String searchValue) {
-        this.searchValue = searchValue;
+       state.setSearchValue(searchValue);
     }
 
     @Override
     public List<Integer> getNumberOfPages() {
-        return numberOfPages;
+        return state.getNumberOfPages();
     }
 
-    private void refresh() {
-        page = PageRequest.of(pageNumber, rowCount, sortDirection, sortParam);
-        numberOfPages = new ArrayList<>();
-        for (int i = 1; i <= generatePage().getTotalPages(); i++) {
-            numberOfPages.add(i);
-        }
-    }
 
     @Override
     public Page<Book> clean() {
-        sortDirection = Sort.Direction.ASC;
-        pageNumber = 0;
-        searchValue = "";
-        searchCriterion = "";
-        sortParam = "id";
-        showAlreadyRead = 0;
+        state.setSortDirection(Sort.Direction.ASC);
+        state.setPageNumber(0);
+        state.setSearchValue("");
+        state.setSearchCriterion("");
+        state.setSortParam("id");
+        state.setShowAlreadyRead(0);
         refresh();
         return generatePage();
+    }
+
+    private void refresh() {
+        state.setPage(PageRequest.of(state.getPageNumber(), state.getRowCount(), state.getSortDirection(), state.getSortParam()));
+        List<Integer> numberOfPages = new ArrayList<>();
+        for (int i = 1; i <= generatePage().getTotalPages(); i++) {
+            numberOfPages.add(i);
+        }
+        state.setNumberOfPages(numberOfPages);
+    }
+
+    private Page<Book> generatePage() {
+        if (state.getSearchCriterion() == null || state.getSearchCriterion().equals("")) {
+            if (state.getShowAlreadyRead() == 2) {
+                return repository.findByReadAlready(false, state.getPage());
+            } else if (state.getShowAlreadyRead() == 1) {
+                return repository.findByReadAlready(true, state.getPage());
+            } else {
+                return repository.findAll(state.getPage());
+            }
+        } else if (state.getSearchCriterion().equals("title")) {
+            if (state.getShowAlreadyRead() == 2) {
+                return repository.findByTitleIgnoreCaseContainsAndReadAlready(state.getSearchValue(), false, state.getPage());
+            } else if (state.getShowAlreadyRead() == 1) {
+                return repository.findByTitleIgnoreCaseContainsAndReadAlready(state.getSearchValue(), true, state.getPage());
+            } else {
+                return repository.findByTitleContainsIgnoreCase(state.getSearchValue(), state.getPage());
+            }
+        } else if (state.getSearchCriterion().equals("author")) {
+            if (state.getShowAlreadyRead() == 2) {
+                return repository.findByAuthorIgnoreCaseContainsAndReadAlready(state.getSearchValue(), false, state.getPage());
+            } else if (state.getShowAlreadyRead() == 1) {
+                return repository.findByAuthorIgnoreCaseContainsAndReadAlready(state.getSearchValue(), true, state.getPage());
+            } else {
+                return repository.findByAuthorContainsIgnoreCase(state.getSearchValue(), state.getPage());
+            }
+        } else {
+            return repository.findAll(state.getPage());
+        }
     }
 }
