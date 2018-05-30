@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+<!-- index footer -->
+<div th:fragment="foot-button-bar" class="main-footer">
+    <table>
+        <tr>
+            <th style="width: 28%" class="footer-form">
+                <div>
+                    <fieldset>
+                        <form method="post" th:action="@{'/search'}">
+                            <legend>Поиск</legend>
+                            <input type="text" th:name="value">
+                            <select th:name="criterion">
+                                <option></option>
+                                <option th:value="title">Название</option>
+                                <option th:value="author">Автор</option>
+                            </select>
+                            <select th:name="isReadAlready">
+                                <option th:value="1">Прочитанные</option>
+                                <option th:value="2">Непрочитанные</option>
+                                <option th:value="0" selected>Все</option>
+                            </select>
+                            <button type="submit" style="margin-left: 2px;">Поиск</button>
+
+                        </form>
+                        <form method="get" th:action="@{'/clean'}">
+                            <legend>Очистка</legend>
+                            <button type="submit">Очистить фильтры</button>
+                        </form>
+                    </fieldset>
+                </div>
+            </th>
+            <th style="padding-right: 10px; text-align: right">
+                <form th:action="@{'/previous'}">
+                    <button type="submit" style="font-size: 17px">Back</button>
+                </form>
+            </th>
+            <th th:each="num : ${numbers}" style="width: 2%; font-size: 17px">
+                <a th:href="@{'/{page}'(page=${num}-1)}" th:text="'|_'+ ${num}+'_|'" style="text-decoration: none;"></a>
+            </th>
+            <th style="padding-left: 10px; text-align: left">
+                <form th:action="@{'/next'}">
+                    <button type="submit" style="font-size: 17px">Next</button>
+                </form>
+            </th>
+            <th style="width: 26%" class="footer-form">
+                <div>
+                    <fieldset>
+                        <form method="post" th:action="@{'/sort'}">
+                            <legend>Отсортировать по типу:</legend>
+                            <select th:name="param" style="margin-left: 0px">
+                                <option th:value="title">Название</option>
+                                <option th:value="author">Автор</option>
+                                <option th:value="id" selected>Добавлена</option>
+                            </select>
+                            <label style="padding-left: 20px">По убыванию
+                                <input type="checkbox" th:name="direct" th:value="DESC"/>
+                            </label>
+                            <br>
+                            <p></p>
+                            <button type="submit">Сортировать</button>
+                        </form>
+                    </fieldset>
+                </div>
+            </th>
+        </tr>
+    </table>
+</div>
+</html>

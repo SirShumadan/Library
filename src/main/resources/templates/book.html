@@ -2,9 +2,56 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head"></head>
 <body>
-    <dev th:replace="fragments/header :: header"></dev>
-    <div th:text="'Id: ' + ${book.id}"></div>
-    <div th:text="${book.title}"></div>
-    <div th:text="${book.author}"></div>
+<header th:replace="fragments/header :: header"></header>
+<div id="edit-form">
+        <table width="70%">
+            <thead>
+            <tr>
+                <th colspan="2" style="text-align: center; padding-bottom: 50px;">
+                    <cm style=" font-size: 25px" th:text="${book.title}"></cm>
+                </th>
+            </tr>
+            </thead>
+            <tr>
+                <th>
+                    <cm>Автор: </cm>
+                </th>
+                <th>
+                    <div th:text="${book.author}" style="margin-left: 20px;"></div>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <cm>Год печати:</cm>
+                </th>
+                <th>
+                    <div th:text="${book.printYear}" style="margin-left: 20px;"></div>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <cm>ISBN:</cm>
+                </th>
+                <th>
+                    <div th:text="${book.isbn}" style="margin-left: 20px;"></div>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <cm>Описание:</cm>
+                </th>
+                <th>
+                    <div th:text="${book.description}" style="margin-left: 20px;"></div>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2" style="text-align: center; padding-top: 100px; font-size: 17px">
+                    <form th:action="@{'/edit/{id}'(id=${book.id})}">
+                        <button type="submit" style="font-size: 17px">Редактировать</button>
+                    </form>
+                </th>
+            </tr>
+        </table>
+</div>
 </body>
 </html>

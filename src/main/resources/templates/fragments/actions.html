@@ -18,27 +18,4 @@
         <button type="submit">Редактировать</button>
     </form>
 </div>
-
-
-<div th:fragment="foot-button-bar" class = "main-footer"> <!-- index footer -->
-    <table>
-        <tr>
-            <th style="padding-right: 10px">
-                <form th:action="@{'/previous'}">
-                    <button type="submit">Back</button>
-                </form>
-            </th>
-            <div>
-                <th th:each="num : ${numbers}" style="width: 35px; font-size: 18px">
-                    <a th:href="@{'/{page}'(page=${num}-1)}" th:text="'| '+ ${num}+' |' |"></a>
-                </th>
-            </div>
-            <th style="padding-left: 10px">
-                <form th:action="@{'/next'}">
-                    <button type="submit">Next</button>
-                </form>
-            </th>
-        </tr>
-    </table>
-</div>
 </html>

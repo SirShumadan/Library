@@ -2,42 +2,54 @@
 body {
     background: #E3D1B5;
 }
+
 .header {
     height: 120px;
     background: #5E4A3F;
 }
+
 #label {
     font-size: 80px;
     width: 400px;
 }
+
 #link a {
     display: block; /* Ссылка как блочный элемент */
     color: white;
     text-decoration: none; /* Убрать подчеркивание */
 }
+
 .main-table {
     margin-top: 50px;
     font-size: 18px;
     min-height: 600px;
     background: papayawhip;
 }
+
 .main-table table {
+    background: papayawhip;
     border-collapse: collapse;
 }
+
 .main-table th {
+
     border: 1px solid #9D917D;
     height: 50px;
 }
+
 .main-footer {
     position: relative;
-    height: 120px;
+    min-height: 120px;
     background: papayawhip;
+
 }
+
 .main-footer table {
-    position: absolute;
-    top: 40%;
-    left: 45%;
+    background: papayawhip;
+    padding-top: 30px;
+    width: 100%;
 }
+
 .cell-cont {
     text-align: left;
     padding-left: 10px;
@@ -46,10 +58,56 @@ body {
 .cell-butt {
     text-align: center;
 }
-#title-ref{
+
+#title-ref {
     color: black;
 }
-tbody{
+
+tbody {
     font-size: 16px;
 }
 
+.footer-form {
+    text-align: left;
+    font-size: 17px;
+}
+
+.footer-form select {
+    min-width: 120px;
+    margin-left: 2px;
+}
+
+#edit-form {
+    margin-top: 50px;
+    font-size: 18px;
+    min-height: 739px;
+    background: papayawhip;
+}
+#edit-form table{
+    background: papayawhip;
+    padding-top: 50px;
+    padding-left: 20%;
+}
+
+
+#edit-form th {
+    padding-top: 7px;
+    vertical-align: top;
+    text-align: left;
+    border: none;
+    min-width: 100px;
+}
+
+#edit-form cm {
+    font-size: 18px;
+}
+#edit-form div {
+    font-size: 17px;
+    padding-left: 30px;
+}
+
+#edit-form textarea {
+    font-size: 16px;
+    margin-left: 50px;
+    resize: none;
+}

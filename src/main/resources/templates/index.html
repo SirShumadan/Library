@@ -2,31 +2,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments/head :: head"></head>
 <body>
-    <div th:replace="fragments/header :: header"></div>
-    <div class="main-table">
-        <table>
-            <thead>
-            <tr>
-                <th>Название</th><th>Автор</th><th>Описание</th><th>Статус</th>
-                <th>Читать</th><th>Редактировать</th><th>Удалить</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="book:${books}">
-                <th style="width: 20%;" class="cell-cont"><a th:href="@{'/book/{id}'(id=${book.id})}" th:text="${book.title}" id="title-ref"></a></th>
-                <th th:text="${book.author}"  style="width: 20%" class="cell-cont"></th>
-                <th th:text="${book.description}" style="width: 40%" class="cell-cont"></th>
-                <th th:switch="${book.readAlready}"  style="width: 5%" class="cell-butt">
-                    <p th:case="true">Прочитано</p>
-                    <p th:case="false"> </p>
-                </th>
-                <th  style="width: 5%"><div th:replace="fragments/actions :: read" class="cell-butt"></div></th>
-                <th  style="width: 5%"><div th:replace="fragments/actions :: edit" class="cell-butt"></div></th>
-                <th  style="width: 5%"><div th:replace="fragments/actions :: delete" class="cell-butt"></div></th>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div  th:replace="fragments/actions :: foot-button-bar"></div>
+<div th:replace="fragments/header :: header"></div>
+<div class="main-table">
+    <table>
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Описание</th>
+            <th>Статус</th>
+            <th>Читать</th>
+            <th>Редактировать</th>
+            <th>Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book:${books}">
+            <th style="width: 20%;" class="cell-cont">
+                <a th:href="@{'/book/{id}'(id=${book.id})}" th:text="${book.title}" id="title-ref"></a>
+            </th>
+            <th th:text="${book.author}" style="width: 20%" class="cell-cont"></th>
+            <th  style="width: 40%" class="cell-cont"><div th:text="${book.description}" style="white-space: nowrap; width: 500px; overflow: hidden; text-overflow: ellipsis;"></div></th>
+            <th th:switch="${book.readAlready}" style="width: 5%" class="cell-butt">
+                <p th:case="true">Прочитано</p>
+                <p th:case="false"></p>
+            </th>
+            <th style="width: 5%">
+                <div th:replace="fragments/actions :: read" class="cell-butt"></div>
+            </th>
+            <th style="width: 5%">
+                <div th:replace="fragments/actions :: edit" class="cell-butt"></div>
+            </th>
+            <th style="width: 5%">
+                <div th:replace="fragments/actions :: delete" class="cell-butt"></div>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/index-footer-bar :: foot-button-bar"></div>
 </body>
 </html>

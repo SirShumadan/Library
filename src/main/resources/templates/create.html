@@ -1,17 +1,67 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head ::head"></head>
+<head th:replace="fragments/head :: head"></head>
 <body>
 <header th:replace="fragments/header :: header"></header>
-
-<form method="post" action="#" th:object="${book}" th:action="@{/save}">
-    <input type="text" th:field="*{title}" placeholder="Название"/>
-    <input type="text" th:field="*{description}" placeholder="Описание"/>
-    <input type="text" th:field="*{author}" placeholder="Автор"/>
-    <input type="text" th:field="*{isbn}" placeholder="isbn"/>
-    <input type="number" min="1800" th:field="*{printYear}" placeholder="Год печати"/>
-    <input type="hidden" th:field="*{readAlready}"/>
-    <input type="submit" value="Создать"/>
-</form>
+<div id="edit-form">
+    <form action="#" method="post" th:action="@{/save}" th:object="${book}">
+        <input type="hidden" th:field="${book.id}" th:value="${book.id}"/>
+        <input type="hidden" th:field="${book.readAlready}" th:value="${book.readAlready}"/>
+        <table width="70%">
+            <thead>
+            <tr>
+                <th colspan="2" style="text-align: center; padding-bottom: 50px;">
+                    <cm style=" font-size: 25px">Новая книга</cm>
+                </th>
+            </tr>
+            </thead>
+            <tr>
+                <th>
+                    <cm>Автор: </cm>
+                </th>
+                <th>
+                    <textarea maxlength="100" rows="1" cols="100" required th:field="${book.author}"></textarea>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <cm>Название:</cm>
+                </th>
+                <th>
+                    <textarea maxlength="100" rows="1" cols="100" required th:field="${book.title}"></textarea>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <cm>Описание:</cm>
+                </th>
+                <th>
+                    <textarea maxlength="255" rows="7" cols="100" required th:field="${book.description}"></textarea>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <cm>ISBN:</cm>
+                </th>
+                <th>
+                    <textarea maxlength="20" rows="1" cols="20" th:field="${book.isbn}"></textarea>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <cm>Год печати:</cm>
+                </th>
+                <th>
+                    <textarea type="text" maxlength="4" rows="1" cols="4" th:field="${book.printYear}"></textarea>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2" style="text-align: center; padding-top: 100px;">
+                    <input type="submit" value="Сохранить" style="font-size: 17px">
+                </th>
+            </tr>
+        </table>
+    </form>
+</div>
 </body>
 </html>
