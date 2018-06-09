@@ -54,7 +54,7 @@ public class MainController {
     public String main(Model model) {
         Page<Book> books = pageService.getPage();
         if (books.getTotalElements() == 0) {
-            books = pageService.clean(); // TODO сделать заглушку для пустого результата поиска
+            books = pageService.clean();
         }
         List<Integer> numbers = pageService.getNumberOfPages();
         model.addAttribute("books", books);
@@ -130,5 +130,4 @@ public class MainController {
     public String css() {
         return "../static/style.css";
     }
-
 }

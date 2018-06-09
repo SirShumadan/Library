@@ -111,3 +111,9 @@ tbody {
     margin-left: 50px;
     resize: none;
 }
+
+.th-main-table {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
